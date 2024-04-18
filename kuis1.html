@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Hitung PPN</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2 class="mb-4">Program Hitung PPN</h2>
+  <form id="ppnForm">
+    <div class="form-group">
+      <label for="namaPelanggan">Nama Pelanggan:</label>
+      <input type="text" class="form-control" id="namaPelanggan" name="namaPelanggan">
+    </div>
+    <div class="form-group">
+      <label for="biayaJasa">Biaya Jasa:</label>
+      <input type="number" class="form-control" id="biayaJasa" name="biayaJasa">
+    </div>
+    <div class="form-group">
+      <label for="biayaSparepart">Biaya Sparepart:</label>
+      <input type="number" class="form-control" id="biayaSparepart" name="biayaSparepart">
+    </div>
+    <div class="form-group">
+      <label for="kodeMember">Kode Member:</label>
+      <select class="form-control" id="kodeMember" name="kodeMember">
+        <option value="B">B - Member, Pelanggan baru</option>
+        <option value="M">M - Member lama</option>
+        <option value="N">N - Non member</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary mr-2" onclick="hitung()">Hitung</button>
+    <button type="reset" class="btn btn-secondary">Reset</button>
+  </form>
+  <div id="hasil" class="mt-4"></div>
+</div>
+
+<script>
+function hitung() {
+  var namaPelanggan = document.getElementById("namaPelanggan").value;
+  var biayaJasa = parseFloat(document.getElementById("biayaJasa").value);
+  var biayaSparepart = parseFloat(document.getElementById("biayaSparepart").value);
+  var kodeMember = document.getElementById("kodeMember").value;
+  
+  var subTotal = biayaJasa + biayaSparepart;
+  var diskon = 0;
+  var persentaseDiskon = 0;
+  
+  switch(kodeMember) {
+    case 'B':
+      persentaseDiskon = 0.25;
+      break;
+    case 'M':
+      persentaseDiskon = 0.2;
+      break;
+    case 'N':
+      persentaseDiskon = 0.1;
+      break;
+    default:
+      persentaseDiskon = 0;
+  }
+  
+  diskon = persentaseDiskon * subTotal;
+  var dpp = subTotal - diskon;
+  var ppn = 0.11 * dpp;
+  var grandTotal = dpp + ppn;
+  
+  var hasil = "<h4>Hasil Perhitungan:</h4>";
+  hasil += "<p>Nama Pelanggan: " + namaPelanggan + "</p>";
+  hasil += "<p>Sub Total: Rp " + subTotal.toFixed(2) + "</p>";
+  hasil += "<p>Diskon: Rp " + diskon.toFixed(2) + "</p>";
+  hasil += "<p>DPP: Rp " + dpp.toFixed(2) + "</p>";
+  hasil += "<p>PPN: Rp " + ppn.toFixed(2) + "</p>";
+  hasil += "<p>Grand Total: Rp " + grandTotal.toFixed(2) + "</p>";
+  
+  document.getElementById("hasil").innerHTML = hasil;
+}
+</script>
+
+</body>
+</html>
